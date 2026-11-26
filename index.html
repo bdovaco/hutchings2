@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hutching’s Memorial Stationery Studio</title></head>
+<body style="margin:0;background:#280d32;color:#fff4e6;font-family:Arial,sans-serif"><p id="status" role="status" style="padding:32px;text-align:center">Loading your memorial stationery studio…</p>
+<script>
+(async () => {
+  try {
+    const response = await fetch(new URL('site.bundle', location.href));
+    if (!response.ok) throw new Error('The site.bundle file could not be loaded (' + response.status + '). Upload it alongside index.html.');
+    if (!('DecompressionStream' in window)) throw new Error('This browser does not support bundle decompression. Please use an updated browser.');
+    const html = await new Response(response.body.pipeThrough(new DecompressionStream('gzip'))).text();
+    document.open(); document.write(html); document.close();
+  } catch (error) {
+    document.getElementById('status').textContent = location.protocol === 'file:'
+      ? 'Upload both index.html and site.bundle to your website, then open its web address. This package cannot load by double-clicking the local HTML file.'
+      : 'Unable to load the studio. ' + error.message;
+    console.error(error);
+  }
+})();
+</script></body></html>
